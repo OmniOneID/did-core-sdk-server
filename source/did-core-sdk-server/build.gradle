@@ -1,0 +1,38 @@
+plugins {
+	id 'java'
+}
+
+group = 'org.omnione.did'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17 
+}
+
+repositories {
+	mavenCentral()
+}
+
+jar {
+    archiveBaseName.set('did-core-sdk-server') 
+    archiveVersion.set('1.0.0')
+    archiveClassifier.set('') 
+}
+
+dependencies {
+	implementation 'org.bouncycastle:bcprov-jdk18on:1.78.1'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+	implementation 'com.google.guava:guava:33.2.1-jre'
+	implementation 'org.hibernate:hibernate-validator:7.0.0.Final'
+	implementation 'com.google.code.gson:gson:2.8.9'
+	implementation 'org.projectlombok:lombok:1.18.24'
+	implementation files('libs/did-crypto-sdk-server-1.0.0.jar')
+	implementation files('libs/did-datamodel-sdk-server-1.0.0.jar')
+	
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
