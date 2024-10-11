@@ -7,7 +7,7 @@ Open DID에 필요한 DID Document(DID 문서), Verifiable Credential(이하 VC)
 | 구분 | 내용                |
 |------|----------------------------|
 | Language  | Java 17|
-| Build System  | Gradle 8.2 |
+| Build System  | Gradle 8.8 |
 
 <br>
 

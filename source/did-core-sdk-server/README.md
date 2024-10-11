@@ -6,7 +6,7 @@ This document is a guide for using the OpenDID Core Server SDK, providing functi
 | Category | Details                |
 |------|----------------------------|
 | Language  | Java 17|
-| Build System  | Gradle 8.2 |
+| Build System  | Gradle 8.8 |
 
 <br>
 
