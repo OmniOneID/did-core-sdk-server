@@ -83,28 +83,17 @@ public class VpManager {
 		if(filter == null) {
 			return;
 		}
+		
 		for(CredentialSchema credentialSchema : filter.getCredentialSchemas()) {
 			VerifiableCredential filterVc = findVerifiableCredential(verifiableCredentials, credentialSchema);
 
-			if (filterVc != null ) {
-				if (isIssuerAllowed(filterVc, credentialSchema)) {
-
-					List<Claim> claimList = filterVc.getCredentialSubject().getClaims();
-					List<String> requiredClaimCodeList = credentialSchema.getRequiredClaims();
-
-					boolean allRequiredClaimsPresent = requiredClaimCodeList.stream()
-							.allMatch(requiredClaimCode -> claimList.stream()
-									.anyMatch(claim -> claim.getCode().equals(requiredClaimCode)));
-
-					if (!allRequiredClaimsPresent) {
-					    throw new CoreException(CoreErrorCode.ERR_CODE_VPMANAGER_NOT_CONTAIN_CLAIM);
-					}
-				} else {
-				    throw new CoreException(CoreErrorCode.ERR_CODE_VPMANAGER_NOT_ALLOW_ISSUER);
-				}
-			} else {
+			if (filterVc == null) {
 			    throw new CoreException(CoreErrorCode.ERR_CODE_VPMANAGER_NOT_MATCHED_SCHEMA);
 			}
+			
+	        validateIssuerAllowed(filterVc, credentialSchema);
+	        validateRequiredClaims(filterVc, credentialSchema);
+	        validatePrsentAll(filterVc, credentialSchema);
 		}
 	}
 
@@ -124,16 +113,56 @@ public class VpManager {
 	}
 	
 	/**
-	 * Checks if the issuer of the VerifiableCredential is allowed by the CredentialSchema.
+	 * Validates if the issuer of the VerifiableCredential is allowed by the CredentialSchema.
 	 *
-	 * @param vc The VerifiableCredential to check.
+	 * @param filterVc The VerifiableCredential to check.
 	 * @param credentialSchema The CredentialSchema containing information about allowed issuers.
 	 * @return True if the issuer is allowed, false otherwise.
+	 * @throws CoreException 
 	 */
-	private boolean isIssuerAllowed(VerifiableCredential vc, CredentialSchema credentialSchema) {
-	    String issuer = vc.getIssuer().getId();
-	    return issuer != null && credentialSchema.getAllowedIssuers().contains(issuer);
+	private void validateIssuerAllowed(VerifiableCredential filterVc, CredentialSchema credentialSchema) throws CoreException {
+	    String issuer = filterVc.getIssuer().getId();
+	    boolean isIssuerAllowed = issuer != null && credentialSchema.getAllowedIssuers().contains(issuer);
+	    
+        if (!isIssuerAllowed) {
+            throw new CoreException(CoreErrorCode.ERR_CODE_VPMANAGER_NOT_ALLOW_ISSUER);
+        }
 	}
+	
+	/**
+	 * Validates if all required claims are present in the VerifiableCredential.
+	 *
+	 * @param filterVc The VerifiableCredential to validate.
+	 * @param credentialSchema The CredentialSchema that contains required claims.
+	 * @throws CoreException
+	 */
+	private void validateRequiredClaims(VerifiableCredential filterVc, CredentialSchema credentialSchema) throws CoreException {
+	    List<String> requiredClaimCodeList = credentialSchema.getRequiredClaims();
+	    List<Claim> claimList = filterVc.getCredentialSubject().getClaims();
+
+	    boolean allRequiredClaimsPresent = requiredClaimCodeList.stream()
+	            .allMatch(requiredClaimCode -> claimList.stream()
+	                    .anyMatch(claim -> claim.getCode().equals(requiredClaimCode)));
+
+	    if (!allRequiredClaimsPresent) {
+	        throw new CoreException(CoreErrorCode.ERR_CODE_VPMANAGER_NOT_CONTAIN_CLAIM);
+	    }
+	}	
+	
+	   
+    /**
+     * Validates if the proof value is present when required by the CredentialSchema.
+     *
+     * @param filterVc The VerifiableCredential to validate.
+     * @param credentialSchema The CredentialSchema that specifies if proof is required.
+     * @throws CoreException
+     */
+    private void validatePrsentAll(VerifiableCredential filterVc, CredentialSchema credentialSchema) throws CoreException {
+        if (Boolean.TRUE.equals(credentialSchema.getPresentAll())
+                && (filterVc.getProof().getProofValue() == null || filterVc.getProof().getProofValue().isBlank())) {
+            throw new CoreException(CoreErrorCode.ERR_CODE_VPMANAGER_NOT_EXIST_PROOFVALUE);
+        }
+    }
 	
 	/**
 	 * Verifies the signature of a Verifiable Presentation (VP, Holder Signature).
@@ -190,21 +219,33 @@ public class VpManager {
                     throw new CoreException(CoreErrorCode.ERR_CODE_VPMANAGER_PRIVACY_NOT_EXIST, verifiableCredential.getId());
                 }
 
-                for (int i = 0; i < claimList.size(); i++) {
+                if(verifiableCredential.getProof().getProofValue() != null && !verifiableCredential.getProof().getProofValue().isEmpty()) {
                     VerifiableCredential tmpVerifiableCredential = new VerifiableCredential();
                     tmpVerifiableCredential.fromJson(verifiableCredential.toJson());
 
-                    List<Claim> tmpClaimList = new ArrayList<Claim>();
-                    tmpClaimList.add(claimList.get(i));
-
-                    tmpVerifiableCredential.getCredentialSubject().setClaims(tmpClaimList);
-
                     SignatureVcParams sigVcParamsByClaims = new SignatureVcParams();
-                    sigVcParamsByClaims = VerifyUtil.getSignatureVcParams(tmpVerifiableCredential, issuerDidDocument, true
-                            , verifiableCredential.getProof().getProofValueList().get(i));
-                    sigVcParamsByClaims.setClaimCode(claimList.get(i).getCode());
-
+                    sigVcParamsByClaims = VerifyUtil.getSignatureVcParams(tmpVerifiableCredential, issuerDidDocument, false
+                            , verifiableCredential.getProof().getProofValue());
                     VerifyUtil.verifySignature(sigVcParamsByClaims);
+                } else if(verifiableCredential.getProof().getProofValueList() != null && !verifiableCredential.getProof().getProofValueList().isEmpty()){
+                    for (int i = 0; i < claimList.size(); i++) {
+                        VerifiableCredential tmpVerifiableCredential = new VerifiableCredential();
+                        tmpVerifiableCredential.fromJson(verifiableCredential.toJson());
+                        
+                        List<Claim> tmpClaimList = new ArrayList<Claim>();
+                        tmpClaimList.add(claimList.get(i));
+
+                        tmpVerifiableCredential.getCredentialSubject().setClaims(tmpClaimList);
+
+                        SignatureVcParams sigVcParamsByClaims = new SignatureVcParams();
+                        sigVcParamsByClaims = VerifyUtil.getSignatureVcParams(tmpVerifiableCredential, issuerDidDocument, true
+                                , verifiableCredential.getProof().getProofValueList().get(i));
+                        sigVcParamsByClaims.setClaimCode(claimList.get(i).getCode());
+
+                        VerifyUtil.verifySignature(sigVcParamsByClaims);
+                    }   
+                } else {
+                    throw new CoreException(CoreErrorCode.ERR_CODE_VPMANAGER_VERIFY_SIGNATURE_FAIL);
                 }
             }
         }
