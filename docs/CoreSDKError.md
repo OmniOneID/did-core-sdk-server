@@ -107,7 +107,7 @@ public class ErrorResponse {
 
 <br>
 
-### 1.3. VpManager (03xxx)
+### 1.3. VpManager(03xxx)
 
 | Error Code   | Error Message                                | Description      | Action Required                         |
 |--------------|----------------------------------------------|------------------|-----------------------------------------|
@@ -121,6 +121,6 @@ public class ErrorResponse {
 | SSDKCOR03007 | Failed to generate VP,VC HashData.           | -                | Check the data to be hashed. |
 | SSDKCOR03008 | Multibase decoding failed.                   | -                | Check the data to be decoded and the decoding type. |
 | SSDKCOR03009 | Signkey does not exist in DIDs.              | -                | Verify if it is a signing key present in the DID document. |
-
+| SSDKCOR03010 | ProofValue (Total claim signature value) does not exist in VC Proof.  | -  | Check if the VC in the VP has a ProofValue value. |
 
 <br>

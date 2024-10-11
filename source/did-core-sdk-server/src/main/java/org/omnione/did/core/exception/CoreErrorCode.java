@@ -48,6 +48,7 @@ public enum CoreErrorCode implements CoreErrorCodeInterface{
 	ERR_CODE_VPMANAGER_GEN_HASH_FAIL(ERR_CODE_VPMANAGER_BASE,  "007", "Failed to generate VP,VC HashData."),
 	ERR_CODE_VPMANAGER_MULTIBASE_DECODING_FAIL(ERR_CODE_VPMANAGER_BASE,     "008", "Multibase decoding failed"),
 	ERR_CODE_VPMANAGER_NOT_EXIST_SIGNING_KEY(ERR_CODE_VPMANAGER_BASE, "009", "Signkey does not exist in DIDs"),
+	ERR_CODE_VPMANAGER_NOT_EXIST_PROOFVALUE(ERR_CODE_VPMANAGER_BASE, "010", "ProofValue(Total claim signature value) does not exist in VC Proof"),
 	;
 	private String code;
 	private String msg;

@@ -9,7 +9,7 @@ did-core-sdk-server
 ├── CLA.md
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
-├── LICENSE.dependencies.md
+├── LICENSE-dependencies.md
 ├── MAINTAINERS.md
 ├── README.md
 ├── README_ko.md
@@ -48,10 +48,54 @@ did-core-sdk-server
 | CHANGELOG.md| 프로젝트 버전별 변경사항           |
 | CODE_OF_CONDUCT.md| 기여자의 행동강령            |
 | CONTRIBUTING.md| 기여 절차 및 방법           |
-| LICENSE.dependencies.md| 프로젝트 의존성 라이브러리에 대한 라이선스            |
+| LICENSE-dependencies.md| 프로젝트 의존성 라이브러리에 대한 라이선스            |
 | MAINTAINERS.md          | 유지관리 가이드              |
 | RELEASE-PROCESS.md      | 릴리즈 절차                                |
 | SECURITY.md| 보안취약점 보고 및 보안정책            | 
+
+## 빌드 방법
+: 본 SDK 그래들 프로젝트이므로 그래들이 설치 되어 있어야 한다.
+1. 프로젝트의 `build.gradle` 파일을 열고, 아래와 같이 내용 추가한다.
+```groovy
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+group = 'org.omnione.did'
+
+jar {
+    archiveBaseName.set('did-core-sdk-server') 
+    archiveVersion.set('1.0.0')
+    archiveClassifier.set('') 
+}
+
+java {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+dependencies {
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.78.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.google.guava:guava:33.2.1-jre'
+    implementation 'org.hibernate:hibernate-validator:7.0.0.Final'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'org.projectlombok:lombok:1.18.24'
+    implementation files('libs/did-crypto-sdk-server-1.0.0.jar')
+    implementation files('libs/did-datamodel-sdk-server-1.0.0.jar')
+    
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+```
+* 해당 SDK를 빌드하기 위해선 Crypto-Sdk-Server, Datamodel-Sdk-Server SDK가 필요
+2. 사용하는 IDE에서 `Gradle task` 창을 열고, 프로젝트의 `build > build > 태스크를 실행한다.
+3. 실행이 완료되면 `%Core repository%/build/libs/` 폴더에 `did-core-sdk-server-1.0.0.jar` 파일을 생성된다.
+
+<br>
 
 ## 라이브러리
 
