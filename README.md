@@ -9,7 +9,7 @@ did-core-sdk-server
 ├── CLA.md
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
-├── LICENSE.dependencies.md
+├── LICENSE-dependencies.md
 ├── MAINTAINERS.md
 ├── README.md
 ├── README_ko.md
@@ -48,10 +48,54 @@ did-core-sdk-server
 | CHANGELOG.md            | Version-specific changes in the project         |
 | CODE_OF_CONDUCT.md      | Code of conduct for contributors                |
 | CONTRIBUTING.md         | Contribution guidelines and procedures          |
-| LICENSE.dependencies.md | Licenses for the project’s dependency libraries |
+| LICENSE-dependencies.md | Licenses for the project’s dependency libraries |
 | MAINTAINERS.md          | General guidelines for maintaining              |
 | RELEASE-PROCESS.md      | Release process                                 |
 | SECURITY.md             | Security policies and vulnerability reporting   |
+
+## Build Instructions
+: Since this SDK is a Gradle project, Gradle must be installed
+1. Open the `build.gradle` file of the project and add the following content:
+```groovy
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+group = 'org.omnione.did'
+
+jar {
+    archiveBaseName.set('did-core-sdk-server') 
+    archiveVersion.set('1.0.0')
+    archiveClassifier.set('') 
+}
+
+java {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+dependencies {
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.78.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.google.guava:guava:33.2.1-jre'
+    implementation 'org.hibernate:hibernate-validator:7.0.0.Final'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'org.projectlombok:lombok:1.18.24'
+    implementation files('libs/did-crypto-sdk-server-1.0.0.jar')
+    implementation files('libs/did-datamodel-sdk-server-1.0.0.jar')
+    
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+```
+* The Crypto-Sdk-Server and Datamodel-Sdk-Server SDKs are required to build this SDK.
+2. In the IDE, open the `Gradle task` window and execute the `build > build` task for the project.
+3. Once the execution is complete, the `did-core-sdk-server-1.0.0.jar` file will be generated in the `%Core repository%/build/libs/` folder.
+
+<br>
 
 ## Libraries
 
