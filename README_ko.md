@@ -103,7 +103,7 @@ dependencies {
 
 ## 라이브러리
 
-라이브러리는 [build 폴더](/source/release/)에서 찾을 수 있습니다.
+라이브러리는 [Releases](https://github.com/OmniOneID/did-core-sdk-server/releases) 에서 찾을 수 있습니다.
 
 ## Core SDK
 1. 서버 프로젝트의 libs에 did-core-sdk-server-1.0.0.jar 파일을 복사한다.
