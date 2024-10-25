@@ -103,7 +103,7 @@ dependencies {
 
 ## Libraries
 
-Libraries can be found in the [release folder](/source/release/).
+Libraries can be found in the [Releases](https://github.com/OmniOneID/did-core-sdk-server/releases).
 
 ## Core SDK
 1. Copy the did-core-sdk-server-1.0.0.jar file to the libs of the server project.
