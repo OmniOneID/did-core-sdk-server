@@ -9,6 +9,7 @@ did-core-sdk-server
 ├── CLA.md
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
+├── LICENSE
 ├── LICENSE-dependencies.md
 ├── MAINTAINERS.md
 ├── README.md
@@ -21,21 +22,23 @@ did-core-sdk-server
 │       ├── CORE_SDK_SERVER_API_ko.md
 │       └── CoreSDKError.md
 └── source
-    └── did-core-sdk-server
-        ├── README.md
-        ├── README_ko.md
-        ├── build.gradle
-        ├── gradle
-        │   └── wrapper
-        ├── .gitignore
-        ├── build
-        ├── libs
-        │   ├── did-crypto-sdk-server-1.0.0.jar        
-        │   └── did-datamodel-sdk-server-1.0.0.jar
-        ├── gradlew        
-        ├── gradlew.bat
-        ├── settings.gradle
-        └── src
+    ├── did-core-sdk-server
+    │   ├── README.md
+    │   ├── README_ko.md
+    │   ├── build.gradle
+    │   ├── gradle
+    │   │   └── wrapper
+    │   ├── .gitignore
+    │   ├── build
+    │   ├── libs
+    │   │   ├── did-crypto-sdk-server-1.0.0.jar        
+    │   │   └── did-datamodel-sdk-server-1.0.0.jar
+    │   ├── gradlew        
+    │   ├── gradlew.bat
+    │   ├── settings.gradle
+    │   └── src
+    └── release
+        └── did-core-sdk-server-1.0.0.jar
 ```
 
 | Name                    | Description                                     |
@@ -48,6 +51,7 @@ did-core-sdk-server
 | CHANGELOG.md            | Version-specific changes in the project         |
 | CODE_OF_CONDUCT.md      | Code of conduct for contributors                |
 | CONTRIBUTING.md         | Contribution guidelines and procedures          |
+| LICENSE                 | Apache 2.0                                      |
 | LICENSE-dependencies.md | Licenses for the project’s dependency libraries |
 | MAINTAINERS.md          | General guidelines for maintaining              |
 | RELEASE-PROCESS.md      | Release process                                 |
@@ -99,9 +103,9 @@ dependencies {
 
 ## Libraries
 
-Libraries can be found in the [build folder](source/did-crypto-sdk-server/build/libs).
+Libraries can be found in the [release folder](/source/release/).
 
-
+## Core SDK
 1. Copy the did-core-sdk-server-1.0.0.jar file to the libs of the server project.
 2. Add the following dependencies to the server project's build.gradle.
 
@@ -109,7 +113,6 @@ Libraries can be found in the [build folder](source/did-crypto-sdk-server/build/
     implementation 'org.bouncycastle:bcprov-jdk18on:1.78.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
     implementation 'com.google.guava:guava:33.2.1-jre'
-    implementation 'org.glassfish:jakarta.el:4.0.2'
     implementation 'org.hibernate:hibernate-validator:7.0.0.Final'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'org.projectlombok:lombok:1.18.24'
@@ -134,4 +137,4 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_
 
 
 ## License
-Copyright 2024 Raonsecure
+[Apache 2.0](LICENSE)
