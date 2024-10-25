@@ -1,5 +1,17 @@
-/* 
- * Copyright 2024 Raonsecure
+/*
+ * Copyright 2024 OmniOne.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.omnione.did.core.manager;
@@ -104,7 +116,7 @@ public class DidManager {
 	        JsonNode rootNode = objectMapper.readTree(file);
 	        didDocJson = rootNode.toString();
 	    } catch (IOException e) {
-	        e.printStackTrace();
+	        throw new CoreException(CoreErrorCode.ERR_CODE_DIDMANAGER_READ_DIDDOCUMENT_FILE_FAIL);
 	    }
 
 	    if(didDocJson != null) {
@@ -301,6 +313,11 @@ public class DidManager {
 		
 		List<SignatureParams> signatureParams = new ArrayList<SignatureParams>();
 		List<String> signableKeyIds = this.getAllSignKeyIdList();
+		
+		if(signableKeyIds == null || signableKeyIds.isEmpty()) {
+		    throw new CoreException(CoreErrorCode.ERR_CODE_DIDMANAGER_NOT_EXIST_SIGNING_KEY);
+		}
+		
 		DidDocument tmpDidDocument = new DidDocument(this.didDocument.toJson());
 
 		if (keyIds != null && !keyIds.isEmpty()) {
