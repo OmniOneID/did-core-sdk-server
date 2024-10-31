@@ -130,6 +130,15 @@ Libraries can be found in the [Releases](https://github.com/OmniOneID/did-core-s
 
 API Reference can be found [here](docs/CORE_SDK_SERVER_API.md)
 
+## Change Log
+
+The Change Log provides a detailed record of version-specific changes and updates. You can find it here:
+- [Change Log](./CHANGELOG.md)
+
+## OpenDID Demonstration Videos <br>
+To watch our demonstration videos of the OpenDID system in action, please visit our [Demo Repository](https://github.com/OmniOneID/did-demo-server). <br>
+
+These videos showcase key features including user registration, VC issuance, and VP submission processes.
 
 ## Contributing
 
