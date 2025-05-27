@@ -31,14 +31,14 @@ did-core-sdk-server
     │   ├── .gitignore
     │   ├── build
     │   ├── libs
-    │   │   ├── did-crypto-sdk-server-1.0.0.jar        
-    │   │   └── did-datamodel-sdk-server-1.0.0.jar
+    │   │   ├── did-crypto-sdk-server-2.0.0.jar        
+    │   │   └── did-datamodel-sdk-server-2.0.0.jar
     │   ├── gradlew        
     │   ├── gradlew.bat
     │   ├── settings.gradle
     │   └── src
     └── release
-        └── did-core-sdk-server-1.0.0.jar
+        └── did-core-sdk-server-2.0.0.jar
 ```
 
 |  이름 |         역할                    |
@@ -73,13 +73,13 @@ group = 'org.omnione.did'
 
 jar {
     archiveBaseName.set('did-core-sdk-server') 
-    archiveVersion.set('1.0.0')
+    archiveVersion.set('2.0.0')
     archiveClassifier.set('') 
 }
 
 java {
-    sourceCompatibility = '17'
-    targetCompatibility = '17'
+    sourceCompatibility = '21'
+    targetCompatibility = '21'
 }
 
 dependencies {
@@ -88,16 +88,16 @@ dependencies {
     implementation 'com.google.guava:guava:33.2.1-jre'
     implementation 'org.hibernate:hibernate-validator:7.0.0.Final'
     implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'org.projectlombok:lombok:1.18.24'
-    implementation files('libs/did-crypto-sdk-server-1.0.0.jar')
-    implementation files('libs/did-datamodel-sdk-server-1.0.0.jar')
+    implementation 'org.projectlombok:lombok:1.18.34'
+    implementation files('libs/did-crypto-sdk-server-2.0.0.jar')
+    implementation files('libs/did-datamodel-sdk-server-2.0.0.jar')
     
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
 }
 ```
 * 해당 SDK를 빌드하기 위해선 Crypto-Sdk-Server, Datamodel-Sdk-Server SDK가 필요
 2. 사용하는 IDE에서 `Gradle task` 창을 열고, 프로젝트의 `build > build > 태스크를 실행한다.
-3. 실행이 완료되면 `%Core repository%/build/libs/` 폴더에 `did-core-sdk-server-1.0.0.jar` 파일을 생성된다.
+3. 실행이 완료되면 `%Core repository%/build/libs/` 폴더에 `did-core-sdk-server-2.0.0.jar` 파일을 생성된다.
 
 <br>
 
@@ -106,7 +106,7 @@ dependencies {
 라이브러리는 [Releases](https://github.com/OmniOneID/did-core-sdk-server/releases) 에서 찾을 수 있습니다.
 
 ## Core SDK
-1. 서버 프로젝트의 libs에 did-core-sdk-server-1.0.0.jar 파일을 복사한다.
+1. 서버 프로젝트의 libs에 did-core-sdk-server-2.0.0.jar 파일을 복사한다.
 2. 서버 프로젝트의 build gradle에 아래 의존성을 추가한다.
 
 ```groovy
@@ -115,12 +115,12 @@ dependencies {
     implementation 'com.google.guava:guava:33.2.1-jre'
     implementation 'org.hibernate:hibernate-validator:7.0.0.Final'
     implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'org.projectlombok:lombok:1.18.24'
-    implementation files('libs/did-core-sdk-server-1.0.0.jar')
-    implementation files('libs/did-crypto-sdk-server-1.0.0.jar')
-    implementation files('libs/did-datamodel-sdk-server-1.0.0.jar')
+    implementation 'org.projectlombok:lombok:1.18.34'
+    implementation files('libs/did-core-sdk-server-2.0.0.jar')
+    implementation files('libs/did-crypto-sdk-server-2.0.0.jar')
+    implementation files('libs/did-datamodel-sdk-server-2.0.0.jar')
 	
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
 ```
 * 해당 SDK를 사용하기 위해선 Crypto-Sdk-Server, Datamodel-Sdk-Server SDK가 필요
 3. `Gradle`을 동기화하여 의존성이 제대로 추가되었는지 확인한다.

@@ -35,5 +35,5 @@
 <br>
 
 **Project Lombok: MIT License**
-`org.projectlombok:lombok:1.18.24`  
+`org.projectlombok:lombok:1.18.34`  
 (https://github.com/projectlombok/lombok/blob/master/LICENSE)
